@@ -20,6 +20,10 @@
                 <td>{{ $support->subject }}</td>
                 <td>{{ $support->status }}</td>
                 <td>{{ $support->content }}</td>
+                <td>
+                    <a href="{{route('forum.show', [$support->id])}}">&rarr;</a>
+                    <a href="{{route('forum.edit', [$support->id])}}">lápis</a>
+                </td>
             </tr>
             
         @endforeach

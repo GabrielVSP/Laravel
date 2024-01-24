@@ -28,9 +28,73 @@ class ForumController extends Controller
 
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, Support $sup) {
 
-        dd($request->all());
+        $data = $request->all();
+        $data['status'] = 'a';
+
+        $sup->create($data);
+
+       return redirect()->route('forum.index');
+
+    }
+
+    public function show(string | int $id) {
+
+        //$support = Support::find($id);
+        $support = Support::where('id', '=', $id)->first();
+
+        if(!$support) {
+
+            return redirect()->back();
+
+        }
+
+        return view('admin/forum/show', compact('support'));
+
+    }
+
+    public function edit(string | int $id) {
+
+        $support = Support::where('id', '=', $id)->first();
+
+        if(!$support) {
+
+            return back();
+
+        }
+
+        return view('admin/forum/edit', compact('support'));
+
+    }
+
+    public function update(string | int $id, Request $request, Support $support) {
+
+        if(!$support = Support::where('id', '=', $id)->first()) {
+
+            return back();
+
+        }
+
+        //$support->subject = $request->subject
+        //$support->save()
+        $support->update($request->only(['subject', 'content']));
+
+        return redirect()->route('forum.index');
+
+    }
+
+    public function delete(string | int $id, Support $support) {
+
+        if(!$support = Support::find($id)) {
+
+            return back();
+
+        }
+
+        $support->delete();
+
+        return redirect()->route('forum.index');
 
     }
 
