@@ -3,16 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreForumRequest;
 use App\Models\Support;
+use App\Services\SupportService;
 use Illuminate\Http\Request;
 
 class ForumController extends Controller
 {
-    
-    public function index() {
 
-        $support = new Support();
-        $supports = $support->all();
+    public function __construct(
+        protected SupportService $service
+    )
+    {
+
+        
+
+    }
+    
+    public function index(Request $req) {
+
+        $supports = $this->service->getAll($req->filter);
 
         $xss = "<script>alert('oi')</script>";
 
@@ -28,9 +38,9 @@ class ForumController extends Controller
 
     }
 
-    public function store(Request $request, Support $sup) {
+    public function store(StoreForumRequest $request, Support $sup) {
 
-        $data = $request->all();
+        $data = $request->validated();
         $data['status'] = 'a';
 
         $sup->create($data);
@@ -42,7 +52,7 @@ class ForumController extends Controller
     public function show(string | int $id) {
 
         //$support = Support::find($id);
-        $support = Support::where('id', '=', $id)->first();
+        $support = $this->service->getSingle($id);
 
         if(!$support) {
 
@@ -56,7 +66,8 @@ class ForumController extends Controller
 
     public function edit(string | int $id) {
 
-        $support = Support::where('id', '=', $id)->first();
+        //$support = Support::where('id', '=', $id)->first();
+        $support = $this->service->getSingle($id);
 
         if(!$support) {
 
@@ -68,7 +79,7 @@ class ForumController extends Controller
 
     }
 
-    public function update(string | int $id, Request $request, Support $support) {
+    public function update(string | int $id, StoreForumRequest $request, Support $support) {
 
         if(!$support = Support::where('id', '=', $id)->first()) {
 
@@ -86,13 +97,13 @@ class ForumController extends Controller
 
     public function delete(string | int $id, Support $support) {
 
-        if(!$support = Support::find($id)) {
+        if(!$support = $this->service->getSingle($id)) {
 
             return back();
 
         }
 
-        $support->delete();
+        $this->service->delete($id);
 
         return redirect()->route('forum.index');
 
