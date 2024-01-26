@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Services;
+
+use App\DTO\CreateSuppDTO;
+use App\DTO\UpdateSuppDTO;
+use App\Repositories\SuppRepoInterface;
 use stdClass;
 
 class SupportService {
 
-    protected $repository;
+    public function __construct(
+        protected SuppRepoInterface $repository
+    ) {
 
-    public function __construct() {
-
-        
     }
 
     public function getAll(string $filter = null): array {
@@ -24,15 +27,15 @@ class SupportService {
 
     }
 
-    public function create(string $subject, string $status, string $content): stdClass {
+    public function create(CreateSuppDTO $dto): stdClass {
 
-        return $this->repository->create($subject, $status, $content);
+        return $this->repository->create($dto);
 
     }
 
-    public function update(string $id, string $subject, string $status, string $content): stdClass | null {
+    public function update(UpdateSuppDTO $dto): stdClass | null {
 
-        return $this->repository->update($id, $subject, $status, $content);
+        return $this->repository->update($dto);
 
     }
 

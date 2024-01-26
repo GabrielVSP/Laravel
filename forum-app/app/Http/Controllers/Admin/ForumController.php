@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DTO\CreateSuppDTO;
+use App\DTO\UpdateSuppDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreForumRequest;
 use App\Models\Support;
@@ -26,8 +28,6 @@ class ForumController extends Controller
 
         $xss = "<script>alert('oi')</script>";
 
-       // dd($supports);
-
         return view('admin/forum/index', compact('supports', 'xss'));
 
     }
@@ -40,10 +40,12 @@ class ForumController extends Controller
 
     public function store(StoreForumRequest $request, Support $sup) {
 
-        $data = $request->validated();
-        $data['status'] = 'a';
+        // $data = $request->validated();
+        // $data['status'] = 'a';
 
-        $sup->create($data);
+        // $sup->create($data);
+
+        $this->service->create(CreateSuppDTO::makeFromReq($request));
 
        return redirect()->route('forum.index');
 
@@ -89,7 +91,8 @@ class ForumController extends Controller
 
         //$support->subject = $request->subject
         //$support->save()
-        $support->update($request->only(['subject', 'content']));
+        $this->service->update(UpdateSuppDTO::makeFromReq($request));
+        //$support->update($request->only(['subject', 'content']));
 
         return redirect()->route('forum.index');
 
