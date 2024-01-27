@@ -22,13 +22,20 @@ class ForumController extends Controller
 
     }
     
-    public function index(Request $req) {
+    public function index(Request $req, Support $model) {
 
-        $supports = $this->service->getAll($req->filter);
+        $supports = $this->service->paginate(
+            page: $req->get('page', 1),
+            maxPerPage: $req->get('per_page', 2),
+            filter: $req->filter
+        );
+
+        $filters = ['filter' => $req->get('filter', '')];
+        // $supports = $model->paginate(1);
 
         $xss = "<script>alert('oi')</script>";
 
-        return view('admin/forum/index', compact('supports', 'xss'));
+        return view('admin/forum/index', compact('supports', 'filters', 'xss'));
 
     }
 

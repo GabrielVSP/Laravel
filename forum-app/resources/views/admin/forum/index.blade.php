@@ -14,15 +14,15 @@
 
     <tbody>
 
-        @foreach ($supports as $support)
+        @foreach ($supports->items() as $support)
 
             <tr>
-                <td>{{ $support['subject'] }}</td>
-                <td>{{ $support['status'] }}</td>
-                <td>{{ $support['content'] }}</td>
+                <td>{{ $support->subject }}</td>
+                <td>{{ getStatusSupp($support->status) }}</td>
+                <td>{{ $support->content }}</td>
                 <td>
-                    <a href="{{route('forum.show', [$support['id']])}}">&rarr;</a>
-                    <a href="{{route('forum.edit', [$support['id']])}}">lápis</a>
+                    <a href="{{route('forum.show', [$support->id])}}">&rarr;</a>
+                    <a href="{{route('forum.edit', [$support->id])}}">lápis</a>
                 </td>
             </tr>
             
@@ -31,3 +31,7 @@
     </tbody>
 
 </table>
+
+<x-pagination :paginator="$supports" :appends="$filters" />
+
+{{-- {{$supports->links()}} --}}

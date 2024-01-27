@@ -3,7 +3,7 @@
 namespace App\Repositories;
 use App\DTO\{CreateSuppDTO, UpdateSuppDTO};
 use App\Models\Support;
-use App\Repositories\SuppRepoInterface;
+use App\Repositories\{SuppRepoInterface};
 use stdClass;
 
 class SupportEloquentORM implements SuppRepoInterface {
@@ -13,6 +13,22 @@ class SupportEloquentORM implements SuppRepoInterface {
     )
     {
         
+    }
+
+    public function paginate(int $page = 1, int $maxPerPage = 2, string $filter = null): PaginateInterface {
+
+        $result = $this->model
+            ->where(function($query) use ($filter) {
+                if($filter) {
+                    $query->where('subject', $filter);
+                    $query->orWhere('content', 'like', "%{$filter}%");
+                }
+            })
+            ->paginate($maxPerPage, ['*'], 'page', $page);
+
+        //dd((new PaginatePresenter($result))->items());
+        return new PaginatePresenter($result);
+
     }
 
     public function getAll(string $filter = null): array {

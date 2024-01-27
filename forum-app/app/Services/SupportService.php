@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\CreateSuppDTO;
 use App\DTO\UpdateSuppDTO;
+use App\Repositories\PaginateInterface;
 use App\Repositories\SuppRepoInterface;
 use stdClass;
 
@@ -12,6 +13,16 @@ class SupportService {
     public function __construct(
         protected SuppRepoInterface $repository
     ) {
+
+    }
+
+    public function paginate(int $page = 1, int $maxPerPage = 2, string $filter = null): PaginateInterface {
+
+        return $this->repository->paginate(
+            page: $page,
+            maxPerPage: $maxPerPage, 
+            filter: $filter
+        );
 
     }
 
