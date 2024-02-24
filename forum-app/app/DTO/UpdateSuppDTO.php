@@ -1,6 +1,8 @@
 <?php
 
 namespace App\DTO;
+
+use App\Enums\SuppStatus;
 use App\Http\Requests\StoreForumRequest;
 
 class UpdateSuppDTO {
@@ -8,19 +10,19 @@ class UpdateSuppDTO {
     public function __construct(
         public string $id,
         public string $subject,
-        public string $status,
+        public SuppStatus $status,
         public string $content
     )
     {
 
     }
 
-    public static function makeFromReq(StoreForumRequest $req) {
+    public static function makeFromReq(StoreForumRequest $req, string $id = null) {
 
         return new self(
-            $req->id,
+            $id ?? $req->id,
             $req->subject,
-            'a',
+            SuppStatus::a,
             $req->content
         );
 

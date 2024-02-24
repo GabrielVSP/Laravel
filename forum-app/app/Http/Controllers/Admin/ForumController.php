@@ -31,7 +31,7 @@ class ForumController extends Controller
         );
 
         $filters = ['filter' => $req->get('filter', '')];
-        // $supports = $model->paginate(1);
+        //$supports = $model->paginate(1);
 
         $xss = "<script>alert('oi')</script>";
 
