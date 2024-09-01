@@ -14,7 +14,9 @@
 
             <tr class="p-1 bg-slate-600 text-white text-center">
                 <td>{{ $support->subject }}</td>
-                <td>{{ getStatusSupp($support->status) }}</td>
+                <td>
+                    <div class="inline px-3 py-1 text-sm font-normal rounded-full">{{ getStatusSupp($support->status) }}</div>
+                </td>
                 <td>{{ $support->content }}</td>
                 <td>blabla</td>
                 <td>

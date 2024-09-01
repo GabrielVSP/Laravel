@@ -1,23 +1,41 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\{ForumController};
 
-/**GET type routes */
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
 
-Route::get('/', [ForumController::class, 'index'])->name('forum.index');
-Route::get('/create', [ForumController::class, 'create'])->name('forum.create');
-Route::get('/post/{id}', [ForumController::class, 'show'])->name('forum.show');
-Route::get('/post/edit/{id}', [ForumController::class, 'edit'])->name('forum.edit');
+Route::get('/', function () {
+    return view('welcome');
+});
 
-/**POST type routes */
+Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function() {
 
-Route::post('/create', [ForumController::class, 'store'])->name('forum.store');
+    Route::get('/', function () {
+        return view('dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
 
-/**PUT type routes */
+    Route::get('/users', function () {
+        return view('users');
+    })->name('dashboard.users');
 
-Route::put('/post/{id}', [ForumController::class, 'update'])->name('forum.update');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-/**DELETE type routes */
+});
 
-Route::delete('/post/{id}', [ForumController::class, 'delete'])->name('forum.delete');
+Route::middleware('auth')->group(function () {
+    
+});
+
+require __DIR__.'/auth.php';

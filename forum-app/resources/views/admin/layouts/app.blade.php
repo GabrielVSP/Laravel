@@ -20,7 +20,7 @@
 
     <main class="w-4/5 mx-auto">
 
-
+        <x-message />
         @yield('content')
 
     </main>

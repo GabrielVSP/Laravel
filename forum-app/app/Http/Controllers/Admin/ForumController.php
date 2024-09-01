@@ -26,7 +26,7 @@ class ForumController extends Controller
 
         $supports = $this->service->paginate(
             page: $req->get('page', 1),
-            maxPerPage: $req->get('per_page', 2),
+            maxPerPage: $req->get('per_page', 5),
             filter: $req->filter
         );
 
@@ -54,7 +54,7 @@ class ForumController extends Controller
 
         $this->service->create(CreateSuppDTO::makeFromReq($request));
 
-       return redirect()->route('forum.index');
+       return redirect()->route('forum.index')->with("message", "Cadastrado com sucesso");
 
     }
 
@@ -101,7 +101,7 @@ class ForumController extends Controller
         $this->service->update(UpdateSuppDTO::makeFromReq($request));
         //$support->update($request->only(['subject', 'content']));
 
-        return redirect()->route('forum.index');
+        return redirect()->route('forum.index')->with("message", "Atualizado com sucesso");
 
     }
 
