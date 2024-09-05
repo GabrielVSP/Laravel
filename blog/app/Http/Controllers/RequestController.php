@@ -22,9 +22,17 @@ class RequestController extends Controller
         // $posts = Http::get('http://127.0.0.1:8000/api/post');
         // dd($posts);
 
+
+        return view('welcome');
+
+    }
+
+    public function blog()
+    {
+       
         $data = json_decode(PostController::index());
 
-        return view('welcome', compact('data'));
+        return view('blog', compact('data'));
 
     }
 

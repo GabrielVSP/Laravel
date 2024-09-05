@@ -25,20 +25,13 @@
             <x-landing.header title="OMEGA"></x-landing.header>
         @endsection
 
-        @section('banner')
-            <div class=" flex flex-col items-start justify-center bg-gradient-to-tr from-red-600 via-red-500 to-red-400 h-[70vh] p-5">
+        @section('posts')
+            <div class="flex w-3/4 flex-col items-center justify-center mx-auto mt-8">
+                @foreach ($data as $post)
+                    
+                    <x-blog.post :post=$post />
 
-                <div class="flex justify-between w-11/12">
-
-                    <div class="w-1/2">
-                        <h2 class="text-white text-7xl font-bold">OMEGA INDUSTRIES</h2>
-                        <p class="text-white text-2xl mt-5">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore, voluptatibus sint? Accusantium quos facilis quisquam culpa asperiores veniam. Quas quo inventore saepe alias suscipit, quam ipsa sapiente nesciunt ipsum! Saepe?</p>
-                    </div>
-
-                    <div class="w-1/4 bg-white p-5 rounded-md"></div>
-
-                </div>
-
+                @endforeach
             </div>
         @endsection
 

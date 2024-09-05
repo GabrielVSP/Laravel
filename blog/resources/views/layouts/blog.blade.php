@@ -1,0 +1,3 @@
+<section>
+    @yield('post')
+</section>

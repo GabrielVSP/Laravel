@@ -6,6 +6,7 @@
 
     <section>
         @yield('banner')
+        @yield('posts')
     </section>
 
 </main>

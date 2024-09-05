@@ -13,7 +13,7 @@ class PostController extends Controller
      */
     static public function index()
     {
-        return Posts::all();
+        return Posts::orderBy('id', 'desc')->get();
     }
 
     /**
