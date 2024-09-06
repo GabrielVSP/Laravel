@@ -4,9 +4,8 @@
 
 <main>
 
-    <section>
         @yield('banner')
         @yield('posts')
-    </section>
+        @yield('post')
 
 </main>

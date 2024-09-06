@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Controller;
+use App\Models\Posts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use GuzzleHttp\Client;
@@ -57,7 +58,13 @@ class RequestController extends Controller
      */
     public function show(string $id)
     {
-        //
+       
+        $data = Posts::find($id);
+
+        return view('post', [
+            'data' => $data
+        ]);
+
     }
 
     /**
